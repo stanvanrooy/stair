@@ -3,6 +3,9 @@ import AirportPicker from "../components/airportPicker";
 import { Location } from "../models/location";
 import { DateRange } from "../models/dateRange";
 import { initializeIcons } from "@fluentui/font-icons-mdl2";
+import styles from "./index.module.css";
+import { ThemeProvider } from "@fluentui/react";
+import { theme } from "../styles/theme";
 
 export interface IIndexProps {
   from?: Location[];
@@ -30,10 +33,14 @@ const Index = (props: IIndexProps) => {
     setState(p);
   }
 
-  return <div>
-    <AirportPicker selected={state?.from ?? []} onChange={onChangeFrom} label={"From"} />
-    <AirportPicker selected={state?.to ?? []} onChange={onChangeTo} label={"To"} />
-  </div>
+  return <ThemeProvider theme={theme}>
+    <div className={styles.container}>
+      <div className={styles.airportPickers}>
+        <AirportPicker selected={state?.from ?? []} onChange={onChangeFrom} label={"From"} />
+        <AirportPicker selected={state?.to ?? []} onChange={onChangeTo} label={"To"} />
+      </div>
+    </div>
+  </ThemeProvider>
 }
 
 export default Index;

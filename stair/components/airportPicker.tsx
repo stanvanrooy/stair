@@ -1,4 +1,4 @@
-import { TagPicker, ITag, Icon } from "@fluentui/react";
+import { TagPicker, ITag, Icon, IBasePickerStyles } from "@fluentui/react";
 import { useMemo } from "react";
 import axios from "axios";
 import { Location } from "../models/location";
@@ -48,6 +48,34 @@ const onResolveSuggestions = (filter: string, selected?: ITag[]): PromiseLike<IT
     );
 }
 
+const onRenderSuggestionsItem = (props: ITag, _: any) => {
+  const isAirport = !props.key.toString().includes('city');
+
+  return <div className={`ms-TagItem-TextOverflow ${styles.suggestionItem}`}>
+    <Icon className={styles.icon} iconName={isAirport ? 'AirplaneSolid' : 'CityNext'} /> 
+    {props.name} {isAirport ? `(${props.key})` : null}
+  </div>
+}
+
+const tagPickerStyles: IBasePickerStyles = {
+  root: {
+    '& div.ms-TagItem': {
+      background: 'unset',
+    },
+    '& div.ms-TagItem:focus-within': {
+      color: 'initial'
+    },
+    '& button.ms-TagItem-close:active': {
+      background: 'initial',
+      color: 'initial'
+    },
+    '& button.ms-TagItem-close:hover': {
+      background: 'initial',
+      color: 'initial'
+    }
+  }
+}
+
 export const AirportPicker = (props: IAirportPickerProps) => {
   const selectedItems = useMemo(() => props.selected.map(locationToTag), [props.selected]);
   const placeholder = useMemo(() => props.selected.length === 0 ? props.label : null, [props.selected]);
@@ -72,14 +100,8 @@ export const AirportPicker = (props: IAirportPickerProps) => {
         placeholder: placeholder
       }}
       onChange={onChange}
-      onRenderSuggestionsItem={(props: ITag, _: any) => {
-        const isAirport = !props.key.toString().includes('city');
-
-        return <div className={`ms-TagItem-TextOverflow ${styles.suggestionItem}`}>
-          <Icon className={styles.icon} iconName={isAirport ? 'AirplaneSolid' : 'CityNext'} /> 
-          {props.name} {isAirport ? `(${props.key})` : null}
-        </div>
-        }}
+      onRenderSuggestionsItem={onRenderSuggestionsItem}
+      styles={tagPickerStyles}
     />
   </div>
 }

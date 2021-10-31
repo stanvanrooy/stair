@@ -1,0 +1,16 @@
+.airportPickers { 
+  display: flex;
+  width: 100%;
+  gap: 16px;
+}
+
+.airportPickers > * {
+  flex: 1;
+}
+
+.container {
+  width: 50%;
+  margin: 0 auto;
+  padding: 16px;
+  background-color: #cbe3e1;
+}
