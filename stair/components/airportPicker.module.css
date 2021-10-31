@@ -1,3 +1,11 @@
-.container {
-  display: flex;
+.suggestionItem {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60vw;
+  padding: 6px 12px 7px;
+  white-space: nowrap;
+}
+
+.icon {
+  margin-right: 4px;
 }
