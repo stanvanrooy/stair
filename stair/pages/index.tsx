@@ -26,7 +26,8 @@ export interface IIndexProps {
 const formatDate = (d?: Date) => d ? `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}` : null;
 
 const Index = (props: IIndexProps) => {
-  const [departureRange, setDepartureRange] = useState<DateRange>(null);
+  // const [departureRange, setDepartureRange] = useState<DateRange>(null);
+  const [departureRange, setDepartureRange] = useState<DateRange>({start: new Date(), end: new Date()});
   const [selectedCabin, setSelectedCabin] = useState("M")
   const [returnRange, setReturnRange] = useState<DateRange>(null);
   const [adults, setAdults] = useState(1);
@@ -36,7 +37,11 @@ const Index = (props: IIndexProps) => {
 
   const [flights, setFlights] = useState<Flight[] | null>(null);
 
-  const [state, setState] = useState<IIndexProps | null>(null);
+  // const [state, setState] = useState<IIndexProps | null>(null);
+  const [state, setState] = useState<IIndexProps | null>({
+    from: [{name: 'ams', code: 'AMS', type: 'airport'}],
+    to: [{name: 'bkk', code: 'BKK', type: 'airport'}],
+  });
   useEffect(() => initializeIcons());
 
   const onChangeFrom = (a: Location[]) => {
@@ -54,13 +59,17 @@ const Index = (props: IIndexProps) => {
   }
 
   const findFlights = () => {
+    if (state === null) {
+      // TODO: show error
+    }
+
     const params = {
       fly_from: (state.from ?? []).map(l => l.code).join(','),
       fly_to: (state.to ?? []).map(l => l.code).join(','),
       date_from: formatDate(departureRange.start),
       date_to: formatDate(departureRange.end ?? departureRange.start),
-      return_from: formatDate(returnRange.start),
-      return_to: formatDate(returnRange.end ?? returnRange.start),
+      return_from: formatDate(returnRange?.start),
+      return_to: formatDate(returnRange?.end ?? returnRange?.start),
       flight_type: returnRange !== null ? 'round' : 'oneway',
       adults: adults,
       curr: selectedCurrency,

@@ -1,0 +1,18 @@
+.outbound {
+  display: flex;
+  background: #d5d5d5;
+}
+
+.outbound > p {
+  margin: 6px 0;
+}
+
+.outbound > p:first-child {
+  width: 15vw;
+  font-size: 12px;
+}
+
+.outbound > p:last-child {
+  width: 15vw;
+  font-size: 12px;
+}

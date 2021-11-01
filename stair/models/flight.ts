@@ -1,4 +1,5 @@
 import { Country } from "./country";
+import { Route } from "./route";
 
 interface Duration {
   departure: number;
@@ -7,6 +8,7 @@ interface Duration {
 }
 
 export interface Flight {
+  id: string;
   countryFrom: Country;
   countryTo: Country;
   deep_link: string;
@@ -15,5 +17,11 @@ export interface Flight {
   local_arrival: string;
   local_departure: string;
   price: string;
-  routes: string[];
+  route: Route[];
+  routes: string[][];
+  flyTo: string;
+  flyFrom: string;
+  cityTo: string;
+  cityFrom: string;
+  conversion: object;
 }

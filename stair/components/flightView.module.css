@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  border-top: 1px solid #c7c7c7;
+}
+
+.container > *:first-child {
+  width: 15vw;
+}
+
+.container > *:nth-child(2) {
+  width: 15vw;
+}
+
+.textCombo {
+
+}
+
+.textCombo > p {
+  margin: 0;
+}
+
+.textCombo > p:first-of-type {
+  font-size: 12px;
+}
+
+.textCombo > p:last-of-type {
+  font-size: 10px;
+  color: #888;
+}
+
+.logo {
+  height: 18px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  flex-direction: row-reverse;
+}
+
+.price > i {
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+.bottomBar {
+  background: #e6e6e6;
+  display: flex;
+  gap: 16px;
+  flex-direction: row;
+}
+
+.bottomBar > a {
+  color: blue;
+  text-decoration: underline;
+  font-size: 10px;
+}
