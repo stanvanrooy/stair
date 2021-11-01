@@ -1,6 +1,7 @@
 .outbound {
   display: flex;
   background: #d5d5d5;
+  padding: 0 16px;
 }
 
 .outbound > p {
@@ -9,10 +10,65 @@
 
 .outbound > p:first-child {
   width: 15vw;
-  font-size: 12px;
+}
+
+.outbound > p:last-of-type {
+  font-size: 1em;
 }
 
 .outbound > p:last-child {
+  width: 33vw;
+  font-size: 1.1em;
+}
+
+.flight {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.flight:nth-child(odd) {
+  background: #e6e6e6;
+}
+
+.flight > *:first-child {
   width: 15vw;
-  font-size: 12px;
+  font-size: .9em;
+}
+.flight > *:nth-child(2) {
+  width: 33vw;
+}
+
+.time {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  gap: 16px;
+  font-size: .9em;
+  margin: 4px 0;
+}
+
+.time > div:first-child {
+  width: 2.5vw;
+}
+
+.logo {
+  height: 18px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.info > div {
+  display: flex;
+}
+
+.info > div > p {
+  margin: 0;
+}
+
+.info > div > p:first-of-type {
+  width: 4.5vw;
 }

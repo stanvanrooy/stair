@@ -26,3 +26,9 @@ div.react-datepicker__input-container > input {
   height: 30px;
   padding: 0px 6px;
 }
+
+a {
+  color: blue;
+  text-decoration: underline;
+  font-size: 1em;
+}

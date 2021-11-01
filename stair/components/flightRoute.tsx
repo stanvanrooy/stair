@@ -1,5 +1,7 @@
+import { dateTimeToDate, secondsToString, getReadableNameForAirport, getDuration, buildWtcPair } from "../helpers";
 import { Route } from "../models/route";
 import styles from "./flightRoute.module.css";
+import { FlightStop } from "./flightStop";
 
 export interface IFlightRouteProps {
   routes: string[];
@@ -7,10 +9,12 @@ export interface IFlightRouteProps {
   nextRoute?: Route;
 }
 
-const dateTimeToDate = (s: string): string => {
-  const d = new Date(s);
-  return d.toUTCString().split(' ').slice(0, 3).join(' ');
+const getTime = (dt: string): string => {
+  const date = new Date(dt);
+  return `${date.getHours()}:${date.getMinutes()}`
 }
+
+const getCreditUrl = (route: Route) => `https://www.wheretocredit.com/calculator#${buildWtcPair(route)}`;
 
 export const FlightRoute = (props: IFlightRouteProps) => {
   const outbound = <div className={styles.outbound}>
@@ -20,9 +24,33 @@ export const FlightRoute = (props: IFlightRouteProps) => {
   return <>
     {props.route.flyFrom === props.routes[0] ? outbound : null}
     <div className={styles.flight}>
-      <div></div>
-      <div></div>
-      <div></div>
+      <p className={styles.duration}>{getDuration(props.route.local_departure, props.route.local_arrival)}</p>
+      <div>
+        <div className={styles.time}>
+          <div>{getTime(props.route.local_departure)}</div> 
+          <div>{props.route.cityFrom} ({props.route.flyFrom})</div>
+        </div>
+        <div>{props.route.airline}{props.route.operating_flight_no ?? props.route.flight_no} ({getReadableNameForAirport(props.route.airline)})</div>
+        <div className={styles.time}>
+          <div>{getTime(props.route.local_arrival)}</div> 
+          <div>{props.route.cityTo} ({props.route.flyTo})</div>
+        </div>
+      </div>
+      <div className={styles.info}>
+        <div>
+          <p><b>Fareclass </b></p>
+          <p>{props.route.fare_classes}</p>
+        </div>
+        <div>
+          <p><b>Recheck </b></p>
+          <p>{props.route.bags_recheck_required ? 'Yes' : 'No'}</p>
+        </div>
+        <div>
+          <p><b>Points </b></p>
+          <p><a target="_blank" href={getCreditUrl(props.route)}>wheretocredit.com</a></p>
+        </div>
+      </div>
     </div>
+    {props.nextRoute !== null ? <FlightStop className={styles.flight} from={props.route} to={props.nextRoute} /> : null}
   </>
 }

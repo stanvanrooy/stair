@@ -1,18 +1,15 @@
 .container {
   display: flex;
   border-top: 1px solid #c7c7c7;
+  padding: 0 16px;
 }
 
 .container > *:first-child {
   width: 15vw;
 }
 
-.container > *:nth-child(2) {
-  width: 15vw;
-}
-
-.textCombo {
-
+.container > *:nth-child(2)  {
+  width: 33vw;
 }
 
 .textCombo > p {
@@ -20,11 +17,11 @@
 }
 
 .textCombo > p:first-of-type {
-  font-size: 12px;
+  font-size: 1em;
 }
 
 .textCombo > p:last-of-type {
-  font-size: 10px;
+  font-size: 1em;
   color: #888;
 }
 
@@ -50,10 +47,5 @@
   display: flex;
   gap: 16px;
   flex-direction: row;
-}
-
-.bottomBar > a {
-  color: blue;
-  text-decoration: underline;
-  font-size: 10px;
+  padding: 2px 16px;
 }

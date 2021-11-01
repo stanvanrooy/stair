@@ -1,22 +1,13 @@
 import { Icon } from "@fluentui/react";
 import { useState } from "react";
+import { buildWtcPair, dateTimeToDate, getImageForAirline, secondsToString } from "../helpers";
 import { Flight } from "../models/flight";
+import { Route } from "../models/route";
 import { FlightRoute } from "./flightRoute";
 import styles from "./flightView.module.css";
 
 export interface IFlightViewProps {
   flight: Flight;
-}
-
-const secondsToString = (s: number): string => {
-  const h = Math.floor(s / 3600);
-  const m = Math.floor(s % 3600 / 60);
-  return `${h}H ${m}M`; 
-}
-
-const dateTimeToDate = (s: string): string => {
-  const d = new Date(s);
-  return d.toUTCString().split(' ').slice(0, 3).join(' ');
 }
 
 const currencyToSymbolMap = {
@@ -28,17 +19,9 @@ const currencyToSymbolMap = {
   'CHF': 'CHF'
 };
 
-const getImageForAirline = (airline: string) => {
-  let url = "";
-  switch(airline) {
-    case "AY":
-      url = "https://logodix.com/logo/992919.png";
-      break;
-    default:
-      console.log('no image for: ', airline);
-      return null;
-  }
-  return <img className={styles.logo} key={url} src={url} />
+const getWtcUrl = (routes: Route[]) => {
+  const pairs = routes.map(buildWtcPair);
+  return `https://www.wheretocredit.com/calculator#${pairs.join('/')}`;
 }
 
 export const FlightView = (props: IFlightViewProps) => {
@@ -52,6 +35,15 @@ export const FlightView = (props: IFlightViewProps) => {
     return "http://www.gcmap.com/map?MS=wls&MR=300&MX=720x360&PM=*&P=" + p;
   }
 
+  const fly = [props.flight.flyFrom];
+  const cit = [props.flight.cityFrom];
+
+  const r = [...props.flight.route.slice(1, props.flight.route.length - 1)];
+  for (const route of props.flight.route) {
+    fly.push(route.flyTo);
+    cit.push(route.cityTo);
+  }
+
   return <>
     <div>
       <div className={styles.container}>
@@ -60,12 +52,12 @@ export const FlightView = (props: IFlightViewProps) => {
           <p>{dateTimeToDate(props.flight.local_departure)}</p>
         </div>
         <div className={styles.textCombo}>
-          <p>{props.flight.flyFrom} → {props.flight.flyTo}</p>
-          <p>{props.flight.cityFrom} → {props.flight.cityTo}</p>
+          <p>{fly.join(' → ')}</p>
+          <p>{cit.join(' → ')}</p>
         </div>
         <div className={styles.textCombo}>
           <p>{props.flight.airlines.join(', ')}</p>
-          <p>{props.flight.airlines.map(getImageForAirline)}</p>
+          <p>{props.flight.airlines.map(a => <img className={styles.logo} src={getImageForAirline(a)} />)}</p>
         </div>
         <div className={styles.price}>
           <Icon iconName={!isExpanded ? 'chevronDown' : 'chevronUp'} onClick={_ => setIsExpanded(v => !v)} />
@@ -74,14 +66,16 @@ export const FlightView = (props: IFlightViewProps) => {
       </div>
     </div>
     {isExpanded ? <div>
-      {props.flight.route.map((r, i) => <FlightRoute 
+      {props.flight.route.map((r, i, _) => <FlightRoute 
         route={r} 
         routes={props.flight.routes[0]}
-        nextRoute={props.flight.route.length < i ? props.flight.route[i + 1] : null} 
+        nextRoute={i + 1 < props.flight.route.length ? props.flight.route[i + 1] : null} 
       />)}
     </div> : null}
     <div className={styles.bottomBar}>
-      <a href={props.flight.deep_link}>Book this flight with Kiwi.</a> <a href={getGCMUrl()}>Route (GCM)</a>
+      <a target="_blank" href={props.flight.deep_link}>Book this flight with Kiwi.</a> 
+      <a target="_blank" href={getGCMUrl()}>Route (GCM)</a>
+      <a target="_blank" href={getWtcUrl(props.flight.route)}>Points (wheretocredit)</a>
     </div>
   </>
 }

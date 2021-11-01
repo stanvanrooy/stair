@@ -1,4 +1,4 @@
 .container {
-  width: 65%;
+  width: calc(65% + 16px);
   margin: 0 auto;
 }

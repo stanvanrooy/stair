@@ -76,7 +76,7 @@ const Index = (props: IIndexProps) => {
     }
 
     if (stops > 0) {
-      params['stops'] = stops - 1;
+      params['max_stopovers'] = stops;
     }
 
     if (selectedAlliance) {
