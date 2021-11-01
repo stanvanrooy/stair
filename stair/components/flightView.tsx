@@ -57,7 +57,7 @@ export const FlightView = (props: IFlightViewProps) => {
         </div>
         <div className={styles.textCombo}>
           <p>{props.flight.airlines.join(', ')}</p>
-          <p>{props.flight.airlines.map(a => <img className={styles.logo} src={getImageForAirline(a)} />)}</p>
+          <p>{props.flight.airlines.map(a => <img key={a} className={styles.logo} src={getImageForAirline(a)} />)}</p>
         </div>
         <div className={styles.price}>
           <Icon iconName={!isExpanded ? 'chevronDown' : 'chevronUp'} onClick={_ => setIsExpanded(v => !v)} />
@@ -67,15 +67,16 @@ export const FlightView = (props: IFlightViewProps) => {
     </div>
     {isExpanded ? <div>
       {props.flight.route.map((r, i, _) => <FlightRoute 
+        key={r.id}
         route={r} 
         routes={props.flight.routes[0]}
         nextRoute={i + 1 < props.flight.route.length ? props.flight.route[i + 1] : null} 
       />)}
     </div> : null}
     <div className={styles.bottomBar}>
-      <a target="_blank" href={props.flight.deep_link}>Book this flight with Kiwi.</a> 
-      <a target="_blank" href={getGCMUrl()}>Route (GCM)</a>
-      <a target="_blank" href={getWtcUrl(props.flight.route)}>Points (wheretocredit)</a>
+      <a rel="noreferrer" target="_blank" href={props.flight.deep_link}>Book this flight with Kiwi.</a> 
+      <a rel="noreferrer" target="_blank" href={getGCMUrl()}>Route (GCM)</a>
+      <a rel="noreferrer" target="_blank" href={getWtcUrl(props.flight.route)}>Points (wheretocredit)</a>
     </div>
   </>
 }

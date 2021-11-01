@@ -13,4 +13,5 @@ export interface Route {
   bags_recheck_required: boolean;
   operating_flight_no: string;
   flight_no: string;
+  id: string;
 }

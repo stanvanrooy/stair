@@ -50,7 +50,7 @@ export const FlightRoute = (props: IFlightRouteProps) => {
         </div>
         <div>
           <p><b>Points </b></p>
-          <p><a target="_blank" href={getCreditUrl(props.route)}>wheretocredit.com</a></p>
+          <p><a target="_blank" rel="noreferrer" href={getCreditUrl(props.route)}>wheretocredit.com</a></p>
         </div>
       </div>
     </div>

@@ -28,6 +28,14 @@ export interface IIndexProps {
 
 const formatDate = (d?: Date) => d ? `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}` : null;
 
+const getHref = () => {
+  try {
+    return window.location.href;
+  } catch {
+    return "";
+  }
+}
+
 const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRange] = useQueryState<DateRange>(null);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -145,7 +153,7 @@ const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRa
       </div>
       <PrimaryButton onClick={_ => findFlights()}>Find flights!</PrimaryButton>
       <TextField readOnly
-        value={window.location.href} 
+        value={getHref()} 
         onRenderPrefix={onRenderLinkPrefix} 
         onRenderSuffix={onRenderLinkSuffix}
         styles={{suffix: {padding: 0}}}
