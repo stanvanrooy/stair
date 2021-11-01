@@ -4,6 +4,7 @@ import { DateRangePicker } from "../components/dateRangePicker";
 import { CabinSelect } from "../components/cabinSelect";
 import { AllianceSelect } from "../components/allianceSelect";
 import { CurrencySelect } from "../components/currencySelect";
+import { FlightExplorer } from "../components/flightExplorer";
 import { Location } from "../models/location";
 import { DateRange } from "../models/dateRange";
 import { initializeIcons } from "@fluentui/font-icons-mdl2";
@@ -12,6 +13,8 @@ import { theme } from "../styles/theme";
 
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./index.module.css";
+import axios from "axios";
+import { Flight } from "../models/flight";
 
 export interface IIndexProps {
   from?: Location[];
@@ -19,6 +22,8 @@ export interface IIndexProps {
   departureRange?: DateRange;
   returnRange?: DateRange;
 }
+
+const formatDate = (d?: Date) => d ? `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}` : null;
 
 const Index = (props: IIndexProps) => {
   const [departureRange, setDepartureRange] = useState<DateRange>(null);
@@ -28,6 +33,8 @@ const Index = (props: IIndexProps) => {
   const [stops, setStops] = useState(-1);
   const [selectedAlliance, setSelectedAlliance] = useState<string | null>("");
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>("EUR");
+
+  const [flights, setFlights] = useState<Flight[] | null>(null);
 
   const [state, setState] = useState<IIndexProps | null>(null);
   useEffect(() => initializeIcons());
@@ -48,23 +55,34 @@ const Index = (props: IIndexProps) => {
 
   const findFlights = () => {
     const params = {
-      fly_from: (state.from ?? []).map(l => l.code),
-      fly_to: (state.from ?? []).map(l => l.code),
-      date_from: departureRange.start,
-      date_to: departureRange.end ?? departureRange.start,
-      return_from: returnRange.start,
-      return_to: returnRange.end,
+      fly_from: (state.from ?? []).map(l => l.code).join(','),
+      fly_to: (state.to ?? []).map(l => l.code).join(','),
+      date_from: formatDate(departureRange.start),
+      date_to: formatDate(departureRange.end ?? departureRange.start),
+      return_from: formatDate(returnRange.start),
+      return_to: formatDate(returnRange.end ?? returnRange.start),
       flight_type: returnRange !== null ? 'round' : 'oneway',
       adults: adults,
+      curr: selectedCurrency,
     }
 
     if (stops > 0) {
-      params['stops'] = stops;
+      params['stops'] = stops - 1;
     }
 
     if (selectedAlliance) {
       params['select_airlines'] = selectedAlliance;
     }
+
+    const headers = {
+      apikey: '9nfHUAXA3-gooRVP-TCxjPiIs7R_C4gQ',
+    }
+
+    axios({
+      url: "https://tequila-api.kiwi.com/v2/search",
+      params: params,
+      headers: headers
+    }).then(r => setFlights(r.data.data));
   }
 
   return <ThemeProvider theme={theme}>
@@ -98,6 +116,7 @@ const Index = (props: IIndexProps) => {
     <div className={styles.currencySelectContainer}>
       <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
     </div>
+    <FlightExplorer flights={flights} />
   </ThemeProvider>
 }
 

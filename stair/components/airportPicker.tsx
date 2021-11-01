@@ -72,6 +72,9 @@ const tagPickerStyles = {
     '& button.ms-TagItem-close:hover': {
       background: 'initial',
       color: 'initial'
+    }, 
+    '& div.ms-BasePicker-text': {
+      background: '#eee',
     }
   },
   itemsWrapper: {
