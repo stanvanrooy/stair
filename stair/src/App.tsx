@@ -68,7 +68,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
   const [stops, setStops] = useQueryState<number | null>('stops', -1, numberOptions);
 
   const [selectedAlliance, setSelectedAlliance] = useQueryState<string>('alliance');
-  const [selectedCurrency, setSelectedCurrency] = useQueryState<string>('currency', 'eur');
+  const [selectedCurrency, setSelectedCurrency] = useQueryState<string>('currency', 'EUR');
   const [flights, setFlights] = useState<Flight[] | null>(null);
 
   const [from, setFrom] = useQueryState<Location[]>('from', null, jsonOptions);

@@ -23,8 +23,10 @@ export const useQueryState = <T>(name: string, def?: any, options?: object): [T,
     if (options.hasOwnProperty('parse')) {
       v = options['parse'](v);
     }
-    setValue(v as any);
-  }, [])
+    if (v) {
+      setValue(v as any);
+    }
+  }, [true])
 
   useEffect(() => {
     if (!value) {
