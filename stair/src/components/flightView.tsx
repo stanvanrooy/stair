@@ -9,6 +9,7 @@ import styles from "./flightView.module.css";
 
 export interface IFlightViewProps {
   flight: Flight;
+  key: any;
 }
 
 const currencyToSymbolMap = {
