@@ -101,6 +101,10 @@ const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRa
   }
 
   return <ThemeProvider theme={theme}>
+    <div className={styles.header}>
+      <h1>Stair</h1>
+      <p>Travel hacking made easy.</p>
+    </div>
     <div className={styles.container}>
       <div className={styles.fieldContainer}>
         <AirportPicker selected={from ?? []} onChange={onChangeFrom} label={"Departure location"} />
@@ -130,6 +134,7 @@ const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRa
       </div>
       <PrimaryButton onClick={_ => findFlights()}>Find flights!</PrimaryButton>
     </div>
+    <br /> <br />
     <div className={styles.currencySelectContainer}>
       <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
     </div>

@@ -5,11 +5,11 @@
 }
 
 .container > *:first-child {
-  width: 15vw;
+  width: 12vw;
 }
 
 .container > *:nth-child(2)  {
-  width: 33vw;
+  width: 25vw;
 }
 
 .textCombo > p {

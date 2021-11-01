@@ -9,7 +9,7 @@
 }
 
 .outbound > p:first-child {
-  width: 15vw;
+  width: 12vw;
 }
 
 .outbound > p:last-of-type {
@@ -17,7 +17,7 @@
 }
 
 .outbound > p:last-child {
-  width: 33vw;
+  width: 25vw;
   font-size: 1.1em;
 }
 
@@ -32,11 +32,11 @@
 }
 
 .flight > *:first-child {
-  width: 15vw;
+  width: 12vw;
   font-size: .9em;
 }
 .flight > *:nth-child(2) {
-  width: 33vw;
+  width: 25vw;
 }
 
 .time {
