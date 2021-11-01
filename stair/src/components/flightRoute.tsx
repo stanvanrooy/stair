@@ -8,6 +8,7 @@ export interface IFlightRouteProps {
   routes: string[];
   route: Route;
   nextRoute?: Route;
+  key: any;
 }
 
 const getTime = (dt: string): string => {
