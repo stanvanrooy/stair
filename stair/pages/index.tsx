@@ -47,27 +47,17 @@ const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRa
   }, [])
 
   const [returnRange, setReturnRange] = useQueryState<DateRange>('return', jsonOptions);
-  const [adults, setAdults] = useQueryState<number>('adults', numberOptions);
-  useEffect(() => {
-    if (!adults) {
-      setAdults(1)
-    }
-  }, [])
+  const [adults, setAdults] = useQueryState<number | null>('adults', numberOptions);
 
-  const [stops, setStops] = useQueryState<number>('stops', numberOptions);
-  useEffect(() => {
-    if (!stops) {
-      setStops(-1)
-    }
-  }, [])
+  const [stops, setStops] = useQueryState<number | null>('stops', numberOptions);
 
-  const [selectedAlliance, setSelectedAlliance] = useQueryState<string | null>('alliance');
-  const [selectedCurrency, setSelectedCurrency] = useQueryState<string | null>("currency");
+  const [selectedAlliance, setSelectedAlliance] = useQueryState<string>('alliance');
+  const [selectedCurrency, setSelectedCurrency] = useQueryState<string>("currency");
   useEffect(() => {
-    if (!selectedCurrency) {
+    if (!selectedCurrency || selectedCurrency.length === 0) {
       setSelectedCurrency('EUR');
     }
-  }, [])
+  }, []);
   const [flights, setFlights] = useState<Flight[] | null>(null);
 
   const [from, setFrom] = useQueryState<Location[]>('from', jsonOptions);
@@ -87,11 +77,11 @@ const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRa
       return_from: formatDate(returnRange?.start ? new Date(returnRange.start) : null),
       return_to: formatDate(new Date(returnRange?.end ?? returnRange?.start)),
       flight_type: returnRange !== null ? 'round' : 'oneway',
-      adults: adults,
+      adults: adults ?? 1,
       curr: selectedCurrency,
     }
 
-    if (stops > 0) {
+    if (stops && stops > 0) {
       params['max_stopovers'] = stops;
     }
 
@@ -126,11 +116,13 @@ const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRa
           type={"number"} 
           suffix={adults > 1 ? 'adults' : 'adult'} 
           value={`${adults}`} 
+          defaultValue={'1'}
           onChange={(_: any, nv: string) => setAdults(parseInt(nv))} 
         />
         <TextField 
           type={"number"} 
           suffix={stops > 1 ? 'stops' : 'stop'} 
+          defaultValue={'-1'}
           value={`${stops}`} 
           onChange={(_: any, nv: string) => setStops(parseInt(nv))} 
         />

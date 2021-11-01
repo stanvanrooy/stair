@@ -38,6 +38,7 @@ export const CurrencySelect = (props: ICurrencySelectProps) => {
     options={options}
     onChange={(_: any, option: IDropdownOption) =>  props.onChange(option.key.toString())}
     selectedKey={props.value}
+    defaultSelectedKey={'EUR'}
     onRenderOption={renderOption}
     onRenderTitle={renderOption}
   />
