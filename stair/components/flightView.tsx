@@ -14,7 +14,7 @@ const currencyToSymbolMap = {
   'EUR': '€', 
   'USD': 'US$',
   'JPY': '¥',
-  'GPB': '£',
+  'GBP': '£',
   'CAD': 'C$',
   'CHF': 'CHF'
 };

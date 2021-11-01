@@ -10,7 +10,7 @@ const options: IDropdownOption[] = [
   { key: 'EUR', text: '€', },
   { key: 'USD', text: 'US$' },
   { key: 'JPY', text: '¥' },
-  { key: 'GPB', text: '£' },
+  { key: 'GBP', text: '£' },
   { key: 'CAD', text: 'C$' },
   { key: 'CHF', text: 'CHF' },
 ]
@@ -19,7 +19,7 @@ const symbolToCountryMap = {
   'EUR': 'eu',
   'USD': 'us',
   'JPY': 'jp',
-  'GPB': 'gb',
+  'GBP': 'gb',
   'CAD': 'ca',
   'CHF': 'ch',
 }

@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { AirportPicker } from "../components/airportPicker";
 import { DateRangePicker } from "../components/dateRangePicker";
 import { CabinSelect } from "../components/cabinSelect";
+import { FullScreenSpinner } from "../components/fullScreenSpinner";
 import { AllianceSelect } from "../components/allianceSelect";
 import { CurrencySelect } from "../components/currencySelect";
 import { FlightExplorer } from "../components/flightExplorer";
 import { Location } from "../models/location";
 import { DateRange } from "../models/dateRange";
 import { initializeIcons } from "@fluentui/font-icons-mdl2";
-import { PrimaryButton, TextField, ThemeProvider } from "@fluentui/react";
+import { PrimaryButton, Spinner, SpinnerSize, TextField, ThemeProvider } from "@fluentui/react";
 import { theme } from "../styles/theme";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,6 +29,8 @@ export interface IIndexProps {
 const formatDate = (d?: Date) => d ? `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}` : null;
 
 const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRange] = useQueryState<DateRange>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  
   const parseJson = (s: string) => {
     if (!s)
       return null;
@@ -93,15 +96,18 @@ const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRa
       apikey: '9nfHUAXA3-gooRVP-TCxjPiIs7R_C4gQ',
     }
 
+    setIsLoading(true)
     axios({
       url: "https://tequila-api.kiwi.com/v2/search",
       params: params,
       headers: headers
-    }).then(r => setFlights(r.data.data));
+    })
+      .then(r => setFlights(r.data.data))
+      .then(_ => setIsLoading(false));
   }
 
   return <ThemeProvider theme={theme}>
-    <div className={styles.header}>
+    {isLoading ? <FullScreenSpinner /> : <><div className={styles.header}>
       <h1>Stair</h1>
       <p>Travel hacking made easy.</p>
     </div>
@@ -138,7 +144,7 @@ const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRa
     <div className={styles.currencySelectContainer}>
       <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
     </div>
-    <FlightExplorer flights={flights} />
+    <FlightExplorer flights={flights} /></>}
   </ThemeProvider>
 }
 
