@@ -27,7 +27,7 @@ export const useQueryState = <T>(name: string, def?: any, options?: object): [T,
   }, [])
 
   useEffect(() => {
-    if (value === null) {
+    if (!value) {
       return;
     }
     const params = new URLSearchParams(window.location.search);
