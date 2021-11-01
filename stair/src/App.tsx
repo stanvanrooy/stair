@@ -164,6 +164,10 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
     </div>
     <FlightExplorer flights={flights} /></>}
+    <div className={styles.footer}>
+      <p>©<a href="https://github.com/stanvanrooy">Stan van Rooy</a></p>
+      <a href="https://peacekeeper.app">Social media scheduler</a>
+    </div>
   </ThemeProvider>
 }
 
