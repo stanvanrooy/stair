@@ -6,16 +6,18 @@ export const FullScreenSpinner = () => {
     container: {
       display: 'flex',
       alignItems: 'center',
+      flexDirection: 'column',
       justifyContent: 'center',
       height: '100vh',
       "& > div > div.ms-Spinner-circle": {
-        width: 102,
-        height: 102,
+        width: 158,
+        height: 158,
       }
     },
   })
 
   return <div className={styles.container}>
     <Spinner size={SpinnerSize.large} />
+    <h1>Finding the best flights for you.</h1>
   </div>
 }

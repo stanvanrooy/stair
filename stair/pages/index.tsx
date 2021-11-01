@@ -9,7 +9,7 @@ import { FlightExplorer } from "../components/flightExplorer";
 import { Location } from "../models/location";
 import { DateRange } from "../models/dateRange";
 import { initializeIcons } from "@fluentui/font-icons-mdl2";
-import { PrimaryButton, Spinner, SpinnerSize, TextField, ThemeProvider } from "@fluentui/react";
+import { Icon, PrimaryButton, Spinner, SpinnerSize, TextField, ThemeProvider } from "@fluentui/react";
 import { theme } from "../styles/theme";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -106,6 +106,11 @@ const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRa
       .then(_ => setIsLoading(false));
   }
 
+  const copyLink = () => navigator.clipboard.writeText(window.location.href);
+
+  const onRenderLinkPrefix = () => <Icon iconName={"MiniLink"} />
+  const onRenderLinkSuffix = () => <PrimaryButton text={"Copy"} onClick={copyLink} />
+
   return <ThemeProvider theme={theme}>
     {isLoading ? <FullScreenSpinner /> : <><div className={styles.header}>
       <h1>Stair</h1>
@@ -139,6 +144,12 @@ const Index = (props: IIndexProps) => { // const [departureRange, setDepartureRa
         <AllianceSelect value={selectedAlliance} onChange={setSelectedAlliance} />
       </div>
       <PrimaryButton onClick={_ => findFlights()}>Find flights!</PrimaryButton>
+      <TextField readOnly
+        value={window.location.href} 
+        onRenderPrefix={onRenderLinkPrefix} 
+        onRenderSuffix={onRenderLinkSuffix}
+        styles={{suffix: {padding: 0}}}
+      />
     </div>
     <br /> <br />
     <div className={styles.currencySelectContainer}>
