@@ -30,6 +30,9 @@ export const getReadableNameForAirport = (airline: string) => {
     case "AY":
       name = "Finnair";
       break;
+    case "SQ":
+      name = "Singapore Airlines";
+      break;
     default:
       console.log('no name for: ', airline);
       return null;

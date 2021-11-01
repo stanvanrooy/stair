@@ -30,7 +30,10 @@ export const FlightRoute = (props: IFlightRouteProps) => {
           <div>{getTime(props.route.local_departure)}</div> 
           <div>{props.route.cityFrom} ({props.route.flyFrom})</div>
         </div>
-        <div>{props.route.airline}{props.route.operating_flight_no ?? props.route.flight_no} ({getReadableNameForAirport(props.route.airline)})</div>
+        <div className={styles.time}>
+          <div>{props.route.airline}{props.route.operating_flight_no ?? props.route.flight_no}</div>
+          <div>{getReadableNameForAirport(props.route.airline)}</div>
+        </div>
         <div className={styles.time}>
           <div>{getTime(props.route.local_arrival)}</div> 
           <div>{props.route.cityTo} ({props.route.flyTo})</div>
