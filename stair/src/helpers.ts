@@ -1,4 +1,5 @@
-import { Route } from './models/route'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Route } from '../models/route'
 
 export const secondsToString = (s: number): string => {
   const h = Math.floor(s / 3600);
@@ -10,6 +11,37 @@ export const dateTimeToDate = (s: string): string => {
   const d = new Date(s);
   return d.toUTCString().split(' ').slice(0, 3).join(' ');
 }
+
+
+export const useQueryState = <T>(name: string, def?: any, options?: object): [T, Dispatch<SetStateAction<T>>]=> {
+  const [value, setValue] = useState<T>(def ?? null);
+  options = options ?? {};
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    let v = params.get(name);
+    if (options.hasOwnProperty('parse')) {
+      v = options['parse'](v);
+    }
+    setValue(v as any);
+  }, [])
+
+  useEffect(() => {
+    if (value === null) {
+      return;
+    }
+    const params = new URLSearchParams(window.location.search);
+    let newValue = value;
+    if (options.hasOwnProperty('serialize')) {
+      newValue = options['serialize'](newValue);
+    }
+    params.set(name, newValue as any);
+    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+  }, [value]);
+
+  return [value, setValue];
+}
+
 
 export const getImageForAirline = (airline: string) => {
   let url = "";

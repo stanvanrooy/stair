@@ -17,14 +17,16 @@ a {
 
 
 div.react-datepicker__input-container > input {
-  width: -moz-available;
+  width: calc(100% - 6px);
+  width: stretch;
   width: -webkit-fill-available;
+  width: -moz-available;
   width: fill-available;
   border-radius: 2px;
   border: 1px solid #989898;
   background: #eee;
   height: 30px;
-  padding: 0px 6px;
+  padding: 0 0 0 6px;
 }
 
 a {

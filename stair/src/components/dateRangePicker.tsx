@@ -1,29 +1,27 @@
 import { useState } from "react";
-import { DateRange } from "../models/dateRange";
+import { DateRange } from "../../models/dateRange";
 
 import DatePicker from "react-datepicker";
 
 export interface IDateRangePickerProps {
   onChange: (d: DateRange) => void;
+  value?: DateRange;
   placeholder: string;
 }
 
 export const DateRangePicker = (props: IDateRangePickerProps) => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
   const onChange = (dates) => {
     const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
     props.onChange({start: start, end: end});
   }
 
   return <div>
     <DatePicker
-        selected={startDate}
+      dateFormat={"yyyy-MM-dd"}
+      selected={props.value?.start}
       onChange={onChange}
-      startDate={startDate}
-      endDate={endDate}
+      startDate={props.value?.start}
+      endDate={props.value?.end}
       selectsRange
       placeholderText={props.placeholder}
     />
