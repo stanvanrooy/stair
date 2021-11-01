@@ -37,6 +37,7 @@
 }
 .flight > *:nth-child(2) {
   width: 25vw;
+  flex: 1;
 }
 
 .time {
@@ -49,7 +50,7 @@
 }
 
 .time > div:first-child {
-  width: 2.5vw;
+  width: 15%;
 }
 
 .logo {

@@ -1,5 +1,6 @@
 import { Icon } from "@fluentui/react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { BrowserView, isMobile } from "react-device-detect";
 import { buildWtcPair, dateTimeToDate, getImageForAirline, secondsToString } from "../helpers";
 import { Flight } from "../models/flight";
 import { Route } from "../models/route";
@@ -35,14 +36,33 @@ export const FlightView = (props: IFlightViewProps) => {
     return "http://www.gcmap.com/map?MS=wls&MR=300&MX=720x360&PM=*&P=" + p;
   }
 
-  const fly = [props.flight.flyFrom];
-  const cit = [props.flight.cityFrom];
+  const fly = useMemo(() => {
+    if (isMobile) {
+      return [props.flight.flyFrom, props.flight.flyTo];
+    }
 
-  const r = [...props.flight.route.slice(1, props.flight.route.length - 1)];
-  for (const route of props.flight.route) {
-    fly.push(route.flyTo);
-    cit.push(route.cityTo);
-  }
+    const fly = [props.flight.flyFrom];
+    for (const route of props.flight.route) {
+      fly.push(route.flyTo);
+    }
+
+    return fly;
+  }, [isMobile, props.flight])
+
+  const cit = useMemo(() => {
+    if (isMobile) {
+      return [];
+    }
+
+    const cit = [props.flight.cityFrom];
+    for (const route of props.flight.route) {
+      cit.push(route.cityTo);
+    }
+
+    return cit;
+  }, [isMobile, props.flight])
+
+  const getFormattedPrice = () => `${currencyToSymbolMap[getCurrency()]}${getPrice()}`;
 
   return <>
     <div>
@@ -55,13 +75,13 @@ export const FlightView = (props: IFlightViewProps) => {
           <p>{fly.join(' → ')}</p>
           <p>{cit.join(' → ')}</p>
         </div>
-        <div className={styles.textCombo}>
+        {!isMobile ? <div className={styles.textCombo}>
           <p>{props.flight.airlines.join(', ')}</p>
           <p>{props.flight.airlines.map(a => <img key={a} className={styles.logo} src={getImageForAirline(a)} />)}</p>
-        </div>
+        </div> : null}
         <div className={styles.price}>
           <Icon iconName={!isExpanded ? 'chevronDown' : 'chevronUp'} onClick={_ => setIsExpanded(v => !v)} />
-          <p>{currencyToSymbolMap[getCurrency()]} {getPrice()}</p>
+          <p><b>{getFormattedPrice()}</b></p>
         </div>
       </div>
     </div>

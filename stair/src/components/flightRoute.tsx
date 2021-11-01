@@ -2,6 +2,7 @@ import { dateTimeToDate, secondsToString, getReadableNameForAirport, getDuration
 import { Route } from "../models/route";
 import styles from "./flightRoute.module.css";
 import { FlightStop } from "./flightStop";
+import { isMobile } from "react-device-detect"; 
 
 export interface IFlightRouteProps {
   routes: string[];
@@ -39,7 +40,7 @@ export const FlightRoute = (props: IFlightRouteProps) => {
           <div>{props.route.cityTo} ({props.route.flyTo})</div>
         </div>
       </div>
-      <div className={styles.info}>
+      {!isMobile ? <div className={styles.info}>
         <div>
           <p><b>Fareclass </b></p>
           <p>{props.route.fare_classes}</p>
@@ -52,7 +53,7 @@ export const FlightRoute = (props: IFlightRouteProps) => {
           <p><b>Points </b></p>
           <p><a target="_blank" rel="noreferrer" href={getCreditUrl(props.route)}>wheretocredit.com</a></p>
         </div>
-      </div>
+      </div> : null}
     </div>
     {props.nextRoute !== null ? <FlightStop className={styles.flight} from={props.route} to={props.nextRoute} /> : null}
   </>

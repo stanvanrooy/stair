@@ -18,6 +18,6 @@ export const FullScreenSpinner = () => {
 
   return <div className={styles.container}>
     <Spinner size={SpinnerSize.large} />
-    <h1>Finding the best flights for you.</h1>
+    <h1 style={{textAlign: 'center'}}>Finding the best flights for you.</h1>
   </div>
 }
