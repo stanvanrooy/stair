@@ -15,6 +15,14 @@ a {
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+
+div.react-datepicker__input-container > input {
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: fill-available;
+  border-radius: 2px;
+  border: 1px solid #989898;
+  background: #eee;
+  height: 30px;
+  padding: 0px 6px;
 }

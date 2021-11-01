@@ -57,7 +57,7 @@ const onRenderSuggestionsItem = (props: ITag, _: any) => {
   </div>
 }
 
-const tagPickerStyles: IBasePickerStyles = {
+const tagPickerStyles = {
   root: {
     '& div.ms-TagItem': {
       background: 'unset',
@@ -73,6 +73,12 @@ const tagPickerStyles: IBasePickerStyles = {
       background: 'initial',
       color: 'initial'
     }
+  },
+  itemsWrapper: {
+    background: '#eee'
+  },
+  input: {
+    background: '#eee'
   }
 }
 
@@ -105,5 +111,3 @@ export const AirportPicker = (props: IAirportPickerProps) => {
     />
   </div>
 }
-
-export default AirportPicker;

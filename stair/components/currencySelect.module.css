@@ -1,0 +1,10 @@
+.option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+}
+
+.option > img{
+  height: 20px;
+}
