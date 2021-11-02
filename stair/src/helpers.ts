@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Route } from '../models/route'
+import { DateRange } from '../models/dateRange'
 
 export const secondsToString = (s: number): string => {
   const h = Math.floor(s / 3600);
@@ -17,6 +18,26 @@ export const navigateToExternalUrl = (name: string, url: string) => {
   sa_event(`navigate to ${name}`, () => window.open(url, '_blank').focus());
 }
 
+const parseJson = (s: string) => {
+  if (!s)
+    return null;
+  return JSON.parse(s);
+}
+const serializeJson = (s: object) => JSON.stringify(s);
+
+const parseDateRange = (dt: string) => {
+  if (!dt)
+    return null;
+  const obj = JSON.parse(dt) as DateRange;
+  obj.end = new Date(obj.end);
+  obj.start = new Date(obj.start);
+  return obj;
+}
+
+export const jsonOptions = { parse: parseJson, serialize: serializeJson };
+export const jsonOptionsDate = { parse: parseDateRange, serialize: serializeJson };
+export const numberOptions = { parse: x => parseInt(x), serialize: x => x.toString() };
+
 export const useQueryState = <T>(name: string, def?: any, options?: object): [T, Dispatch<SetStateAction<T>>]=> {
   const [value, setValue] = useState<T>(def ?? null);
   options = options ?? {};
@@ -27,7 +48,7 @@ export const useQueryState = <T>(name: string, def?: any, options?: object): [T,
     if (options.hasOwnProperty('parse')) {
       v = options['parse'](v);
     }
-    if (v) {
+    if (v !== null) {
       setValue(v as any);
     }
   }, [true])

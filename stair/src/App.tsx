@@ -12,7 +12,7 @@ import { DateRange } from "../models/dateRange";
 import { initializeIcons } from "@fluentui/font-icons-mdl2";
 import { Icon, PrimaryButton, TextField, ThemeProvider } from "@fluentui/react";
 import { theme } from "./styles/theme";
-import { useQueryState } from "./helpers";
+import { jsonOptions, jsonOptionsDate, numberOptions, useQueryState } from "./helpers";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./styles/globals.css";
@@ -38,26 +38,6 @@ const getHref = () => {
 
 const App = (props: IIndexProps) => { // const [departureRange, setDepartureRange] = useQueryState<DateRange>(null);
   const [isLoading, setIsLoading] = useState(false);
-  
-  const parseJson = (s: string) => {
-    if (!s)
-      return null;
-    return JSON.parse(s);
-  }
-  const serializeJson = (s: object) => JSON.stringify(s);
-  const jsonOptions = { parse: parseJson, serialize: serializeJson };
-
-  const parseDateRange = (dt: string) => {
-    if (!dt)
-      return null;
-    const obj = JSON.parse(dt) as DateRange;
-    obj.end = new Date(obj.end);
-    obj.start = new Date(obj.start);
-    return obj;
-  }
-  const jsonOptionsDate = { parse: parseDateRange, serialize: serializeJson };
-
-  const numberOptions = { parse: x => parseInt(x), serialize: x => x.toString() };
 
   const [departureRange, setDepartureRange] = useQueryState<DateRange>('departure', null, jsonOptionsDate);
   const [selectedCabin, setSelectedCabin] = useQueryState<string>('cabin', 'W');
@@ -112,7 +92,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       curr: selectedCurrency,
     }
 
-    if (stops && stops > 0) {
+    if (stops !== null && stops >= 0) {
       params['max_stopovers'] = stops;
     }
 
@@ -190,7 +170,6 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
         styles={{suffix: {padding: 0}}}
       />
     </div>
-    <br /> <br />
     <div className={styles.currencySelectContainer}>
       <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
     </div>
