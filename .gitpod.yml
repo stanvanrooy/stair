@@ -1,6 +1,6 @@
 tasks:
   - init: cd stair && npm install
-    command: cd stair && npm run dev
+    command: cd stair && npm run start 
 
 ports:
   - port: 3000
