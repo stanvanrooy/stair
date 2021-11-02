@@ -12,9 +12,14 @@ export interface IAirportPickerProps {
 }
 
 const locationToTag = (l: Location): ITag => {
+  let key = l.code;
+  if (l.type === 'city')
+    key = 'city:' + key;
+  if (l.type === 'region') 
+    key = l.id;
   return {
     name: l.name,
-    key: l.type === 'city' ? `city:${l.code}` : l.code,
+    key: key,
   };
 }
 
@@ -24,7 +29,7 @@ const onResolveSuggestions = (filter: string, selected?: ITag[]): PromiseLike<IT
     return [];
   }
 
-  const url = `https://tequila-api.kiwi.com/locations/query?location_types=city`
+  const url = `https://tequila-api.kiwi.com/locations/query?location_types=city&location_types=region`
   const params = {
     limit: 5,
     sort: 'name',
@@ -36,6 +41,7 @@ const onResolveSuggestions = (filter: string, selected?: ITag[]): PromiseLike<IT
   }
 
   const selectedKeys = selected.map(s => s.key);
+  console.log(selectedKeys);
 
   // @ts-ignore
   sa_event('location_api_request');
@@ -51,7 +57,8 @@ const onResolveSuggestions = (filter: string, selected?: ITag[]): PromiseLike<IT
 }
 
 const onRenderSuggestionsItem = (props: ITag, _: any) => {
-  const isAirport = !props.key.toString().includes('city');
+  const pkt = props.key.toString();
+  const isAirport = !(pkt.includes('city') || pkt.includes('region'));
 
   return <div className={`ms-TagItem-TextOverflow ${styles.suggestionItem}`}>
     <Icon className={styles.icon} iconName={isAirport ? 'AirplaneSolid' : 'CityNext'} /> 
@@ -98,8 +105,9 @@ export const AirportPicker = (props: IAirportPickerProps) => {
     const airports = items.map(i => ({
       name: i.name, 
       code: i.key, 
-      type: i.key.includes('city') ? 'city' : 'airport'}
-    ));
+      id: i.key.includes('region') ? i.key.replace('region:', '') : null,
+      type: !i.key.includes('city') ? (i.key.includes('region') ? 'region' : 'airport') : 'city'
+    }));
     props.onChange(airports);
   };
 

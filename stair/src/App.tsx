@@ -41,7 +41,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
   const [isLoading, setIsLoading] = useState(false);
 
   const [departureRange, setDepartureRange] = useQueryState<DateRange>('departure', null, jsonOptionsDate);
-  const [selectedCabin, setSelectedCabin] = useQueryState<string>('cabin', 'W', stringOptions);
+  const [selectedCabin, setSelectedCabin] = useQueryState<string>('cabin', 'M', stringOptions);
 
   const [returnRange, setReturnRange] = useQueryState<DateRange>('return', null, jsonOptionsDate);
   const [adults, setAdults] = useQueryState<number | null>('adults', 1, numberOptions);
