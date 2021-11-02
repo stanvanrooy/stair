@@ -1,7 +1,7 @@
 import { Icon } from "@fluentui/react";
 import { useMemo, useState } from "react";
 import { BrowserView, isMobile } from "react-device-detect";
-import { buildWtcPair, dateTimeToDate, getImageForAirline, secondsToString } from "../helpers";
+import { buildWtcPair, dateTimeToDate, getImageForAirline, navigateToExternalUrl, secondsToString } from "../helpers";
 import { Flight } from "../models/flight";
 import { Route } from "../models/route";
 import { FlightRoute } from "./flightRoute";
@@ -95,9 +95,9 @@ export const FlightView = (props: IFlightViewProps) => {
       />)}
     </div> : null}
     <div className={styles.bottomBar}>
-      <a rel="noreferrer" target="_blank" href={props.flight.deep_link}>Book this flight with Kiwi.</a> 
-      <a rel="noreferrer" target="_blank" href={getGCMUrl()}>Route (GCM)</a>
-      <a rel="noreferrer" target="_blank" href={getWtcUrl(props.flight.route)}>Points (wheretocredit)</a>
+      <a onClick={_ => navigateToExternalUrl('kiwi', props.flight.deep_link)}>Book this flight with Kiwi.</a> 
+      <a onClick={_ => navigateToExternalUrl('gcm', getGCMUrl())}>Route (GCM)</a>
+      <a onClick={_ => navigateToExternalUrl('wtc', getWtcUrl(props.flight.route))}>Points (wheretocredit)</a>
     </div>
   </>
 }

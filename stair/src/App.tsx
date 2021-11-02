@@ -82,6 +82,8 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
   const [error, setError] = useState<string | null>(null);
 
   const findFlights = () => {
+    // @ts-ignore
+    sa_event("find flights click");
     if (!from || from.length === 0) {
       return setError("Add atleast one 'From' airport or city.");
     }
@@ -94,9 +96,9 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       return setError("Please set a departure date.");
     }
 
-    // if (returnRange && departureRange.start > (returnRange.end ?? returnRange.start)) { 
-    //   return setError("Please set the departure range to start before the end of the return range.");
-    // }
+    if (returnRange && departureRange.start > (returnRange.end ?? returnRange.start)) { 
+      return setError("Please set the departure range to start before the end of the return range.");
+    }
 
     const params = {
       fly_from: (from ?? []).map(l => l.code).join(','),
@@ -124,6 +126,8 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
 
     setIsLoading(true);
     setError(null);
+    // @ts-ignore
+    sa_event("find flights api request");
     axios({
       url: "https://tequila-api.kiwi.com/v2/search",
       params: params,

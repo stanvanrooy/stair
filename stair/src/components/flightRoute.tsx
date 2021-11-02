@@ -1,4 +1,4 @@
-import { dateTimeToDate, secondsToString, getReadableNameForAirport, getDuration, buildWtcPair } from "../helpers";
+import { dateTimeToDate, secondsToString, getReadableNameForAirport, getDuration, buildWtcPair, navigateToExternalUrl } from "../helpers";
 import { Route } from "../models/route";
 import styles from "./flightRoute.module.css";
 import { FlightStop } from "./flightStop";
@@ -52,7 +52,7 @@ export const FlightRoute = (props: IFlightRouteProps) => {
         </div>
         <div>
           <p><b>Points </b></p>
-          <p><a target="_blank" rel="noreferrer" href={getCreditUrl(props.route)}>wheretocredit.com</a></p>
+          <p><a onClick={_ => navigateToExternalUrl('wtc individual', getCreditUrl(props.route))}>wheretocredit.com</a></p>
         </div>
       </div> : null}
     </div>

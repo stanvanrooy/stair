@@ -12,6 +12,10 @@ export const dateTimeToDate = (s: string): string => {
   return d.toUTCString().split(' ').slice(0, 3).join(' ');
 }
 
+export const navigateToExternalUrl = (name: string, url: string) => {
+  // @ts-ignore
+  sa_event(`navigate to ${name}`, () => window.open(url, '_blank').focus());
+}
 
 export const useQueryState = <T>(name: string, def?: any, options?: object): [T, Dispatch<SetStateAction<T>>]=> {
   const [value, setValue] = useState<T>(def ?? null);
