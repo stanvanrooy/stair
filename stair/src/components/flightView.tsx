@@ -69,7 +69,7 @@ export const FlightView = (props: IFlightViewProps) => {
     <div>
       <div className={styles.container}>
         <div className={styles.textCombo}>
-          <p>{secondsToString(props.flight.duration.departure)}</p>
+          <p>{secondsToString(props.flight.duration.total)}</p>
           <p>{dateTimeToDate(props.flight.local_departure)}</p>
         </div>
         <div className={styles.textCombo}>

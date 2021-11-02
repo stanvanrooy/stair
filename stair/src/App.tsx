@@ -93,9 +93,10 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       adults: adults ?? 1,
       curr: selectedCurrency,
       limit: 1000,
+      sort: 'price',
     }
 
-    if (maxNights) {
+    if (returnRange?.start && maxNights) {
       params['nights_in_dst_from'] = 0;
       params['nights_in_dst_to'] = maxNights;
     }

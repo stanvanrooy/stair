@@ -29,6 +29,8 @@ export const FlightExplorer = (props: IFlightExplorerProps) => {
       flights = props.flights.sort((a, b) => sort(a.duration.total, b.duration.total));
     } else if (selectedSort === 'distance') {
       flights = props.flights.sort((a, b) => -sort(a.distance, b.distance));
+    } else if (selectedSort === 'nights') {
+      flights = props.flights.sort((a, b) => -sort(a.nightsInDest, b.nightsInDest));
     }
     if (!flights || flights.length === 0 || !maxDuration) {
       return flights;
