@@ -28,7 +28,7 @@ export const FlightExplorer = (props: IFlightExplorerProps) => {
         return 1;
       });
     }
-    if (!flights || flights.length === 0 || maxDuration === null) {
+    if (!flights || flights.length === 0 || !maxDuration) {
       return flights;
     }
     return flights.filter(f => {
@@ -39,7 +39,7 @@ export const FlightExplorer = (props: IFlightExplorerProps) => {
       }
       return valid(f.duration.departure) && valid(f.duration.return);
     });
-  }, [selectedSort, props.flights, maxDuration])
+  }, [selectedSort, props.flights?.length, maxDuration])
 
   if (props.flights === null) {
     return null;
@@ -47,7 +47,7 @@ export const FlightExplorer = (props: IFlightExplorerProps) => {
 
   return <div className={styles.container}>
     <br />
-    <div className={styles.filters}>
+    {props.flights.length > 0 ? <div className={styles.filters}>
       <SortSelect value={selectedSort} onChange={setSelectedSort} />
       <TextField
         label={"Max. duration"}
@@ -57,7 +57,7 @@ export const FlightExplorer = (props: IFlightExplorerProps) => {
         suffix={maxDuration && maxDuration > 1 ? "hours" : "hour"}
         min={1}
       />
-    </div>
+    </div> : null}
     <br />
     {sortedFlights.map(f => <FlightView flight={f} key={f.id} />)}
   </div>

@@ -77,7 +77,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       return setError("Please set a departure date.");
     }
 
-    if (returnRange && returnRange.end || returnRange.start && departureRange.start > (returnRange.end ?? returnRange.start)) { 
+    if (returnRange && (returnRange.end || returnRange.start && departureRange.start > (returnRange.end ?? returnRange.start))) { 
       return setError("Please set the departure range to start before the end of the return range.");
     }
 
