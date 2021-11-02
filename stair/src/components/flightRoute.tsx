@@ -29,16 +29,16 @@ export const FlightRoute = (props: IFlightRouteProps) => {
       <p className={styles.duration}>{getDuration(props.route.local_departure, props.route.local_arrival)}</p>
       <div>
         <div className={styles.time}>
-          <div>{getTime(props.route.local_departure)}</div> 
-          <div>{props.route.cityFrom} ({props.route.flyFrom})</div>
+          <div><b>{getTime(props.route.local_departure)}</b></div> 
+          <div><b>{props.route.cityFrom} ({props.route.flyFrom})</b></div>
         </div>
         <div className={styles.time}>
           <div>{props.route.airline}{props.route.operating_flight_no ?? props.route.flight_no}</div>
           <div>{getReadableNameForAirport(props.route.airline)}</div>
         </div>
         <div className={styles.time}>
-          <div>{getTime(props.route.local_arrival)}</div> 
-          <div>{props.route.cityTo} ({props.route.flyTo})</div>
+          <div><b>{getTime(props.route.local_arrival)}</b></div> 
+          <div><b>{props.route.cityTo} ({props.route.flyTo})</b></div>
         </div>
       </div>
       {!isMobile ? <div className={styles.info}>
