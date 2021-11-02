@@ -67,7 +67,11 @@ export const useQueryState = <T>(name: string, def?: any, options?: object): [T,
     if (value && options.hasOwnProperty('serialize')) {
       newValue = options['serialize'](newValue);
     }
-    params.set(name, newValue as any);
+    if (newValue === undefined || newValue === null || newValue as any === NaN) {
+      params.delete(name)
+    } else {
+      params.set(name, newValue as any);
+    }
 
     window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
   }, [value]);
