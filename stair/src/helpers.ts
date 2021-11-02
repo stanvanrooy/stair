@@ -45,7 +45,7 @@ export const stringOptions = { parse: x => x, serialize: x => x}
 export const numberOptions = { parse: x => parseInt(x), serialize: x => x.toString() };
 
 export const useQueryState = <T>(name: string, def?: any, options?: object): [T, Dispatch<SetStateAction<T>>]=> {
-  const [value, setValue] = useState<T>(def ?? null);
+  const [value, setValue] = useState<T>();
   options = options ?? {};
 
   useEffect(() => {
@@ -56,6 +56,8 @@ export const useQueryState = <T>(name: string, def?: any, options?: object): [T,
     }
     if (v !== null) {
       setValue(v as any);
+    } else {
+      setValue(def);
     }
   }, [true])
 
