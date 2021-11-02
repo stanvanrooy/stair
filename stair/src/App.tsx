@@ -79,7 +79,25 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
   const onChangeFrom = (l: Location[]) => setFrom(l);
   const onChangeTo = (l: Location[]) => setTo(l);
 
+  const [error, setError] = useState<string | null>(null);
+
   const findFlights = () => {
+    if (!from || from.length === 0) {
+      return setError("Add atleast one 'From' airport or city.");
+    }
+
+    if (!to || to.length === 0) {
+      return setError("Add atleast one 'To' airport or city.");
+    }
+
+    if (!departureRange || !departureRange.start) { 
+      return setError("Please set a departure date.");
+    }
+
+    // if (returnRange && departureRange.start > (returnRange.end ?? returnRange.start)) { 
+    //   return setError("Please set the departure range to start before the end of the return range.");
+    // }
+
     const params = {
       fly_from: (from ?? []).map(l => l.code).join(','),
       fly_to: (to ?? []).map(l => l.code).join(','),
@@ -104,14 +122,22 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       apikey: '9nfHUAXA3-gooRVP-TCxjPiIs7R_C4gQ',
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
+    setError(null);
     axios({
       url: "https://tequila-api.kiwi.com/v2/search",
       params: params,
-      headers: headers
+      headers: headers,
+      validateStatus: s => s < 500
     })
-      .then(r => setFlights(r.data.data))
-      .then(_ => setIsLoading(false));
+      .then(r => {
+        if (r.status > 399) {
+          setError(r.data.error.slice(39, r.data.error.length - 1));
+        } else {
+          setFlights(r.data.data)
+        }
+      })
+      .then(_ => setIsLoading(false))
   }
 
   const copyLink = () => navigator.clipboard.writeText(window.location.href);
@@ -151,6 +177,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
         />
         <AllianceSelect value={selectedAlliance} onChange={setSelectedAlliance} />
       </div>
+      {error ? <p className={styles.error}>{error}</p> : null}
       <PrimaryButton onClick={_ => findFlights()}>Find flights!</PrimaryButton>
       <TextField readOnly
         value={getHref()} 
@@ -165,7 +192,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
     </div>
     <FlightExplorer flights={flights} /></>}
     <div className={styles.footer}>
-      <p>©<a href="https://github.com/stanvanrooy">Stan van Rooy</a></p>
+      <p>© <a href="https://github.com/stanvanrooy">Stan van Rooy</a></p>
       <a href="https://peacekeeper.app">Social media scheduler</a>
     </div>
     <a className={styles.analyticsBadge} href="https://simpleanalytics.com/stair.nu?utm_source=stair.nu&utm_content=badge" target="_blank">
