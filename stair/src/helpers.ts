@@ -76,6 +76,9 @@ export const getImageForAirline = (airline: string) => {
     case "AY":
       url = "https://logodix.com/logo/992919.png";
       break;
+    case "TK":
+      url = "https://cdn.turkishairlines.com/m/1caafac05abda82f/original/TurkishAirlinesv2-jpg.jpg";
+      break;
     default:
       console.log('no image for: ', airline);
       return null;
@@ -91,6 +94,9 @@ export const getReadableNameForAirport = (airline: string) => {
       break;
     case "SQ":
       name = "Singapore Airlines";
+      break;
+    case "TK":
+      name = "Turkish Airlines";
       break;
     default:
       console.log('no name for: ', airline);
