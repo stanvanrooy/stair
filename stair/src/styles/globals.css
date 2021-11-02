@@ -30,3 +30,7 @@ a {
   font-size: 1em;
   cursor: pointer;
 }
+
+.react-datepicker__close-icon::after {
+  background-color: #88A09E;
+}
