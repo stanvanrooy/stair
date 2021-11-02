@@ -47,6 +47,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
   const [adults, setAdults] = useQueryState<number | null>('adults', 1, numberOptions);
 
   const [stops, setStops] = useQueryState<number | null>('stops', -1, numberOptions);
+  const [maxNights, setMaxNights] = useQueryState<number | null>('maxni', null, numberOptions);
 
   const [selectedAlliance, setSelectedAlliance] = useQueryState<string>('alliance');
   const [selectedCurrency, setSelectedCurrency] = useQueryState<string>('currency', 'EUR');
@@ -77,7 +78,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       return setError("Please set a departure date.");
     }
 
-    if (returnRange && (returnRange.end || returnRange.start && departureRange.start > (returnRange.end ?? returnRange.start))) { 
+    if (returnRange && (returnRange.end || returnRange.start ) && departureRange.start > (returnRange.end ?? returnRange.start)) { 
       return setError("Please set the departure range to start before the end of the return range.");
     }
 
@@ -91,6 +92,12 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       flight_type: returnRange?.start ? 'round' : 'oneway',
       adults: adults ?? 1,
       curr: selectedCurrency,
+      limit: 1000,
+    }
+
+    if (maxNights) {
+      params['nights_in_dst_from'] = 0;
+      params['nights_in_dst_to'] = maxNights;
     }
 
     if (stops !== null && stops >= 0) {
@@ -159,6 +166,13 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
           defaultValue={'-1'}
           value={`${stops}`} 
           onChange={(_: any, nv: string) => setStops(parseInt(nv))} 
+        />
+        <TextField 
+          type={"number"} 
+          suffix={maxNights > 1 ? 'nights' : 'night'} 
+          value={`${maxNights}`} 
+          prefix={'max'}
+          onChange={(_: any, nv: string) => setMaxNights(parseInt(nv))} 
         />
         <AllianceSelect value={selectedAlliance} onChange={setSelectedAlliance} />
       </div>

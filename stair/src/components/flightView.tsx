@@ -73,7 +73,7 @@ export const FlightView = (props: IFlightViewProps) => {
           <p>{dateTimeToDate(props.flight.local_departure)}</p>
         </div>
         <div className={styles.textCombo}>
-          <p>{fly.join(' → ')}</p>
+          <p>{fly.join(' → ')} {props.flight.nightsInDest ? `(${props.flight.nightsInDest} NIGHTS)` : null}</p>
           <p>{cit.join(' → ')}</p>
         </div>
         {!isMobile ? <div className={styles.textCombo}>
