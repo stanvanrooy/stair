@@ -24,7 +24,7 @@ export const FlightExplorer = (props: IFlightExplorerProps) => {
   const sortedFlights = useMemo(() => {
     let flights = [];
     if (selectedSort === 'price') {
-      flights = props.flights;
+      flights = props.flights.sort((a, b) => sort(a.price, b.price));
     } else if (selectedSort === 'duration') {
       flights = props.flights.sort((a, b) => sort(a.duration.total, b.duration.total));
     } else if (selectedSort === 'distance') {

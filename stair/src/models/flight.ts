@@ -16,7 +16,7 @@ export interface Flight {
   duration: Duration;
   local_arrival: string;
   local_departure: string;
-  price: string;
+  price: number;
   route: Route[];
   routes: string[][];
   flyTo: string;
