@@ -22,6 +22,10 @@ export const FlightExplorer = (props: IFlightExplorerProps) => {
   const [maxDuration, setMaxDuration] = useQueryState<number | null>('maxdur', null, numberOptions);
 
   const sortedFlights = useMemo(() => {
+    if (!props.flights) {
+      return [];
+    }
+
     let flights = [];
     if (selectedSort === 'price') {
       flights = props.flights.sort((a, b) => sort(a.price, b.price));
