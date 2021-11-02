@@ -88,7 +88,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       date_to: formatDate(departureRange.end ?? departureRange.start),
       return_from: formatDate(returnRange?.start),
       return_to: formatDate(returnRange?.end ?? returnRange?.start),
-      flight_type: returnRange?.start !== null ? 'round' : 'oneway',
+      flight_type: returnRange?.start ? 'round' : 'oneway',
       adults: adults ?? 1,
       curr: selectedCurrency,
     }
