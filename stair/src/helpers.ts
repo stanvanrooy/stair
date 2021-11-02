@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Route } from '../models/route'
-import { DateRange } from '../models/dateRange'
+import { Route } from './models/route'
+import { DateRange } from './models/dateRange'
 
 export const secondsToString = (s: number): string => {
   const h = Math.floor(s / 3600);

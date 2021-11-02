@@ -24,4 +24,5 @@ export interface Flight {
   cityTo: string;
   cityFrom: string;
   conversion: object;
+  distance: number;
 }

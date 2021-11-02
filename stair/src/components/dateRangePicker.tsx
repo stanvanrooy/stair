@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { DateRange } from "../../models/dateRange";
+import { DateRange } from "../models/dateRange";
 
 import DatePicker from "react-datepicker";
 

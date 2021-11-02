@@ -8,6 +8,7 @@ export interface ISortSelectProps {
 const options = [
   {key: 'price', text: 'Price'},
   {key: 'duration', text: 'Duration'},
+  {key: 'distance', text: 'Distance'},
 ]
 
 export const SortSelect = (props: ISortSelectProps) => {

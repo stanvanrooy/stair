@@ -1,6 +1,6 @@
 import { Icon } from "@fluentui/react";
 import { useMemo, useState } from "react";
-import { BrowserView, isMobile } from "react-device-detect";
+import { isMobile } from "react-device-detect";
 import { buildWtcPair, dateTimeToDate, getImageForAirline, navigateToExternalUrl, secondsToString } from "../helpers";
 import { Flight } from "../models/flight";
 import { Route } from "../models/route";
@@ -75,6 +75,7 @@ export const FlightView = (props: IFlightViewProps) => {
         <div className={styles.textCombo}>
           <p>{fly.join(' → ')}</p>
           <p>{cit.join(' → ')}</p>
+          <p>{props.flight.distance}</p>
         </div>
         {!isMobile ? <div className={styles.textCombo}>
           <p>{props.flight.airlines.join(', ')}</p>

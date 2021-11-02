@@ -1,4 +1,4 @@
-import { dateTimeToDate, secondsToString, getReadableNameForAirport, getDuration, buildWtcPair, navigateToExternalUrl } from "../helpers";
+import { dateTimeToDate, getReadableNameForAirport, getDuration, buildWtcPair, navigateToExternalUrl } from "../helpers";
 import { Route } from "../models/route";
 import styles from "./flightRoute.module.css";
 import { FlightStop } from "./flightStop";

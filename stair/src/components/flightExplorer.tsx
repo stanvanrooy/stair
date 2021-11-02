@@ -11,6 +11,12 @@ export interface IFlightExplorerProps {
   flights: Flight[]
 }
 
+const sort = (a: number, b: number): number => {
+  if (a === b) return 0;
+  if (a < b) return -1;
+  return 1;
+}
+
 export const FlightExplorer = (props: IFlightExplorerProps) => {
   const [selectedSort, setSelectedSort] = useQueryState<string>('sort', 'price');
   const [maxDuration, setMaxDuration] = useQueryState<number | null>('maxdur', null, numberOptions);
@@ -20,13 +26,9 @@ export const FlightExplorer = (props: IFlightExplorerProps) => {
     if (selectedSort === 'price') {
       flights = props.flights;
     } else if (selectedSort === 'duration') {
-      flights = props.flights.sort((a, b) => {
-        const ad = a.duration.total;
-        const bd = b.duration.total;
-        if (ad === bd) return 0;
-        if (ad < bd) return -1;
-        return 1;
-      });
+      flights = props.flights.sort((a, b) => sort(a.duration.total, b.duration.total));
+    } else if (selectedSort === 'distance') {
+      flights = props.flights.sort((a, b) => -sort(a.distance, b.distance));
     }
     if (!flights || flights.length === 0 || !maxDuration) {
       return flights;
