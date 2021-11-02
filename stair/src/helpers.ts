@@ -77,7 +77,7 @@ export const getImageForAirline = (airline: string) => {
       url = "https://logodix.com/logo/992919.png";
       break;
     case "TK":
-      url = "https://cdn.turkishairlines.com/m/1caafac05abda82f/original/TurkishAirlinesv2-jpg.jpg";
+      url = "https://1000logos.net/wp-content/uploads/2020/04/Turkish_Airlines_logo.png";
       break;
     default:
       console.log('no image for: ', airline);
