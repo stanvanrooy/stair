@@ -56,7 +56,7 @@ export const useQueryState = <T>(name: string, def?: any, options?: object): [T,
     }
     if (v !== null) {
       setValue(v as any);
-    } else {
+    } else if (def !== null) {
       setValue(def);
     }
   }, [true])
@@ -64,16 +64,18 @@ export const useQueryState = <T>(name: string, def?: any, options?: object): [T,
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     let newValue = value;
+    if (newValue === undefined || newValue === null || newValue as any === NaN) {
+      params.delete(name)
+      return;
+    } 
+
     if (value && options.hasOwnProperty('serialize')) {
       newValue = options['serialize'](newValue);
     }
-    if (newValue === undefined || newValue === null || newValue as any === NaN) {
-      params.delete(name)
-    } else {
+    if (newValue) {
       params.set(name, newValue as any);
+      window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
     }
-
-    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
   }, [value]);
 
   return [value, setValue];
