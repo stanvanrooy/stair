@@ -18,6 +18,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./styles/globals.css";
 import styles from "./App.module.css";
 import axios from "axios";
+import { BrowserView } from "react-device-detect";
 
 export interface IIndexProps {
   from?: Location[];
@@ -178,9 +179,11 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       <p>© <a href="https://github.com/stanvanrooy">Stan van Rooy</a></p>
       <a href="https://peacekeeper.app">Social media scheduler</a>
     </div>
-    <a className={styles.analyticsBadge} href="https://simpleanalytics.com/stair.nu?utm_source=stair.nu&utm_content=badge" target="_blank">
-      <img src="https://simpleanalyticsbadge.com/stair.nu?counter=false&background=eeeeee" loading="lazy" />
-    </a>
+    <BrowserView>
+      <a className={styles.analyticsBadge} href="https://simpleanalytics.com/stair.nu?utm_source=stair.nu&utm_content=badge" target="_blank">
+        <img src="https://simpleanalyticsbadge.com/stair.nu?counter=false&background=eeeeee" loading="lazy" />
+      </a>
+    </BrowserView>
   </ThemeProvider>
 }
 

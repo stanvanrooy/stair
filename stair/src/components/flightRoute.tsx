@@ -13,7 +13,7 @@ export interface IFlightRouteProps {
 
 const getTime = (dt: string): string => {
   const date = new Date(dt);
-  return `${date.getHours()}:${date.getMinutes()}`
+  return `${date.getHours()}:${(date.getMinutes() + '0').slice(0, 2)}`
 }
 
 const getCreditUrl = (route: Route) => `https://www.wheretocredit.com/calculator#${buildWtcPair(route)}`;
