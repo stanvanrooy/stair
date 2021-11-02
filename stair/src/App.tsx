@@ -126,6 +126,8 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       .then(r => {
         if (r.status > 399) {
           setError(r.data.error.slice(39, r.data.error.length - 1));
+          // @ts-ignore
+          sa_event(r.data.error.slice(39, r.data.error.length - 1));
         } else {
           setFlights(r.data.data)
         }

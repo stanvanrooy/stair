@@ -37,6 +37,8 @@ const onResolveSuggestions = (filter: string, selected?: ITag[]): PromiseLike<IT
 
   const selectedKeys = selected.map(s => s.key);
 
+  // @ts-ignore
+  sa_event('location_api_request');
   return axios({
     url: url,
     headers: headers,
