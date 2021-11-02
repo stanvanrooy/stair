@@ -132,7 +132,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
 
   return <ThemeProvider theme={theme}>
     {isLoading ? <FullScreenSpinner /> : <><div className={styles.header}>
-      <h1>Stair</h1>
+      <h1><a href="https://stair.nu">Stair</a></h1>
       <p>Travel hacking made easy.</p>
     </div>
     <div className={styles.container}>
