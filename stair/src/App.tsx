@@ -12,7 +12,7 @@ import { DateRange } from "./models/dateRange";
 import { initializeIcons } from "@fluentui/font-icons-mdl2";
 import { Icon, PrimaryButton, TextField, ThemeProvider } from "@fluentui/react";
 import { theme } from "./styles/theme";
-import { jsonOptions, jsonOptionsDate, numberOptions, useQueryState } from "./helpers";
+import { jsonOptions, jsonOptionsDate, stringOptions, numberOptions, useQueryState } from "./helpers";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./styles/globals.css";
@@ -41,7 +41,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
   const [isLoading, setIsLoading] = useState(false);
 
   const [departureRange, setDepartureRange] = useQueryState<DateRange>('departure', null, jsonOptionsDate);
-  const [selectedCabin, setSelectedCabin] = useQueryState<string>('cabin', 'W');
+  const [selectedCabin, setSelectedCabin] = useQueryState<string>('cabin', 'W', stringOptions);
 
   const [returnRange, setReturnRange] = useQueryState<DateRange>('return', null, jsonOptionsDate);
   const [adults, setAdults] = useQueryState<number | null>('adults', 1, numberOptions);
@@ -99,6 +99,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       curr: selectedCurrency,
       limit: 1000,
       sort: 'price',
+      selected_cabins: selectedCabin,
     }
 
     if (returnRange?.start && (maxNights || minNights)) {

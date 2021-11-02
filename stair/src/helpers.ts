@@ -41,6 +41,7 @@ const serializeJsonDateRange = (dr: DateRange): string => JSON.stringify({
 
 export const jsonOptions = { parse: parseJson, serialize: serializeJson };
 export const jsonOptionsDate = { parse: parseDateRange, serialize: serializeJsonDateRange };
+export const stringOptions = { parse: x => x, serialize: x => x}
 export const numberOptions = { parse: x => parseInt(x), serialize: x => x.toString() };
 
 export const useQueryState = <T>(name: string, def?: any, options?: object): [T, Dispatch<SetStateAction<T>>]=> {
@@ -64,10 +65,6 @@ export const useQueryState = <T>(name: string, def?: any, options?: object): [T,
     if (value && options.hasOwnProperty('serialize')) {
       newValue = options['serialize'](newValue);
       params.set(name, newValue as any);
-    }
-
-    if (!value) {
-      params.delete(name);
     }
 
     window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
