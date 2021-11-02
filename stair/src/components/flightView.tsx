@@ -75,7 +75,6 @@ export const FlightView = (props: IFlightViewProps) => {
         <div className={styles.textCombo}>
           <p>{fly.join(' → ')}</p>
           <p>{cit.join(' → ')}</p>
-          <p>{props.flight.distance}</p>
         </div>
         {!isMobile ? <div className={styles.textCombo}>
           <p>{props.flight.airlines.join(', ')}</p>
