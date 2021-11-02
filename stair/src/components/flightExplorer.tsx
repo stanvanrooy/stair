@@ -28,7 +28,7 @@ export const FlightExplorer = (props: IFlightExplorerProps) => {
         return 1;
       });
     }
-    if (maxDuration === null) {
+    if (!flights || flights.length === 0 || maxDuration === null) {
       return flights;
     }
     return flights.filter(f => {
