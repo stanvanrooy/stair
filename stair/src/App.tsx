@@ -48,6 +48,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
 
   const [stops, setStops] = useQueryState<number | null>('stops', -1, numberOptions);
   const [maxNights, setMaxNights] = useQueryState<number | null>('maxni', null, numberOptions);
+  const [minNights, setMinNights] = useQueryState<number | null>('minni', null, numberOptions);
 
   const [selectedAlliance, setSelectedAlliance] = useQueryState<string>('alliance');
   const [selectedCurrency, setSelectedCurrency] = useQueryState<string>('currency', 'EUR');
@@ -82,6 +83,10 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       return setError("Please set the departure range to start before the end of the return range.");
     }
 
+    if (minNights > maxNights) {
+      return setError("Minimum nights should be less or equal to maximum nights.");
+    }
+
     const params = {
       fly_from: (from ?? []).map(l => l.code).join(','),
       fly_to: (to ?? []).map(l => l.code).join(','),
@@ -96,9 +101,9 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       sort: 'price',
     }
 
-    if (returnRange?.start && maxNights) {
-      params['nights_in_dst_from'] = 0;
-      params['nights_in_dst_to'] = maxNights;
+    if (returnRange?.start && (maxNights || minNights)) {
+      params['nights_in_dst_from'] = minNights ?? 0;
+      params['nights_in_dst_to'] = maxNights ? maxNights : minNights + 1;
     }
 
     if (stops !== null && stops >= 0) {
@@ -154,30 +159,43 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
         <DateRangePicker value={departureRange} onChange={setDepartureRange} placeholder={"Departure period"} />
         <DateRangePicker value={returnRange} onChange={setReturnRange} placeholder={"Return period (optional)"}/>
       </div>
-      <div className={styles.fieldContainer}>
-        <CabinSelect value={selectedCabin} onChange={setSelectedCabin} />
-        <TextField 
-          type={"number"} 
-          suffix={adults > 1 ? 'adults' : 'adult'} 
-          value={`${adults}`} 
-          defaultValue={'1'}
-          onChange={(_: any, nv: string) => setAdults(parseInt(nv))} 
-        />
-        <TextField 
-          type={"number"} 
-          suffix={stops > 1 ? 'stops' : 'stop'} 
-          defaultValue={'-1'}
-          value={`${stops}`} 
-          onChange={(_: any, nv: string) => setStops(parseInt(nv))} 
-        />
-        <TextField 
-          type={"number"} 
-          suffix={maxNights > 1 ? 'nights' : 'night'} 
-          value={`${maxNights}`} 
-          prefix={'max'}
-          onChange={(_: any, nv: string) => setMaxNights(parseInt(nv))} 
-        />
-        <AllianceSelect value={selectedAlliance} onChange={setSelectedAlliance} />
+      <div>
+        <div className={styles.fieldContainer}>
+          <CabinSelect value={selectedCabin} onChange={setSelectedCabin} />
+          <TextField 
+            type={"number"} 
+            suffix={adults > 1 ? 'adults' : 'adult'} 
+            value={`${adults}`} 
+            defaultValue={'1'}
+            onChange={(_: any, nv: string) => setAdults(parseInt(nv))} 
+          />
+          <TextField 
+            type={"number"} 
+            suffix={stops > 1 ? 'stops' : 'stop'} 
+            defaultValue={'-1'}
+            value={`${stops}`} 
+            prefix={"max"}
+            onChange={(_: any, nv: string) => setStops(parseInt(nv))} 
+          />
+        </div>
+        <br />
+        <div className={styles.fieldContainer}>
+          <AllianceSelect value={selectedAlliance} onChange={setSelectedAlliance} />
+          <TextField 
+            type={"number"} 
+            suffix={'nights'} 
+            value={`${minNights}`} 
+            prefix={'min'}
+            onChange={(_: any, nv: string) => setMinNights(parseInt(nv))} 
+          />
+          <TextField 
+            type={"number"} 
+            suffix={'nights'} 
+            value={`${maxNights}`} 
+            prefix={'max'}
+            onChange={(_: any, nv: string) => setMaxNights(parseInt(nv))} 
+          />
+        </div>
       </div>
       {error ? <p className={styles.error}>{error}</p> : null}
       <PrimaryButton onClick={_ => findFlights()}>Find flights!</PrimaryButton>

@@ -48,6 +48,7 @@ export const FlightExplorer = (props: IFlightExplorerProps) => {
       return valid(f.duration.departure) && valid(f.duration.return);
     });
   }, [selectedSort, props.flights?.length, maxDuration])
+  const fl = useMemo(() => sortedFlights.map(f => <FlightView flight={f} key={f.id} />), [sortedFlights]);
 
   if (props.flights === null) {
     return null;
@@ -67,6 +68,6 @@ export const FlightExplorer = (props: IFlightExplorerProps) => {
       />
     </div> : null}
     <br />
-    {sortedFlights.map(f => <FlightView flight={f} key={f.id} />)}
+    {fl}
   </div>
 }

@@ -59,15 +59,17 @@ export const useQueryState = <T>(name: string, def?: any, options?: object): [T,
   }, [true])
 
   useEffect(() => {
-    if (!value) {
-      return;
-    }
     const params = new URLSearchParams(window.location.search);
     let newValue = value;
-    if (options.hasOwnProperty('serialize')) {
+    if (value && options.hasOwnProperty('serialize')) {
       newValue = options['serialize'](newValue);
+      params.set(name, newValue as any);
     }
-    params.set(name, newValue as any);
+
+    if (!value) {
+      params.delete(name);
+    }
+
     window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
   }, [value]);
 
