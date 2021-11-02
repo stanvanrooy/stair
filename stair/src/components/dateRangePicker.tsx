@@ -23,6 +23,7 @@ export const DateRangePicker = (props: IDateRangePickerProps) => {
       startDate={props.value?.start}
       endDate={props.value?.end}
       selectsRange
+      isClearable
       placeholderText={props.placeholder}
     />
   </div>

@@ -96,7 +96,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       return setError("Please set a departure date.");
     }
 
-    if (returnRange && departureRange.start > (returnRange.end ?? returnRange.start)) { 
+    if (returnRange && returnRange.end || returnRange.start && departureRange.start > (returnRange.end ?? returnRange.start)) { 
       return setError("Please set the departure range to start before the end of the return range.");
     }
 
@@ -107,7 +107,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       date_to: formatDate(departureRange.end ?? departureRange.start),
       return_from: formatDate(returnRange?.start),
       return_to: formatDate(returnRange?.end ?? returnRange?.start),
-      flight_type: returnRange !== null ? 'round' : 'oneway',
+      flight_type: returnRange?.start !== null ? 'round' : 'oneway',
       adults: adults ?? 1,
       curr: selectedCurrency,
     }
