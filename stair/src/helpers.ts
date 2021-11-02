@@ -29,13 +29,18 @@ const parseDateRange = (dt: string) => {
   if (!dt)
     return null;
   const obj = JSON.parse(dt) as DateRange;
-  obj.end = new Date(obj.end);
-  obj.start = new Date(obj.start);
+  obj.end = obj.end ? new Date(obj.end) : null;
+  obj.start = obj.start ? new Date(obj.start) : null;
   return obj;
 }
 
+const serializeJsonDateRange = (dr: DateRange): string => JSON.stringify({
+  start: dr.start ? dr.start.getTime() : null,
+  end: dr.end ? dr.end.getTime() : null,
+})
+
 export const jsonOptions = { parse: parseJson, serialize: serializeJson };
-export const jsonOptionsDate = { parse: parseDateRange, serialize: serializeJson };
+export const jsonOptionsDate = { parse: parseDateRange, serialize: serializeJsonDateRange };
 export const numberOptions = { parse: x => parseInt(x), serialize: x => x.toString() };
 
 export const useQueryState = <T>(name: string, def?: any, options?: object): [T, Dispatch<SetStateAction<T>>]=> {
