@@ -28,6 +28,7 @@ const getWtcUrl = (routes: Route[]) => {
 
 export const FlightView = (props: IFlightViewProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  console.log(props.flight);
 
   const getCurrency = () => Object.keys(props.flight.conversion).find(k => k != 'EUR') ?? 'EUR';
   const getPrice = () => props.flight.conversion[getCurrency()];
@@ -90,7 +91,6 @@ export const FlightView = (props: IFlightViewProps) => {
       {props.flight.route.map((r, i, _) => <FlightRoute 
         key={r.id}
         route={r} 
-        routes={props.flight.routes[0]}
         nextRoute={i + 1 < props.flight.route.length ? props.flight.route[i + 1] : null} 
       />)}
     </div> : null}

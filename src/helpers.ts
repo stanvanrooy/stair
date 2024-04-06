@@ -64,7 +64,7 @@ export const useQueryState = <T>(name: string, def?: any, options?: object): [T,
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     let newValue = value;
-    if (newValue === undefined || newValue === null || newValue as any === NaN) {
+    if (newValue === undefined || newValue === null) {
       params.delete(name)
       return;
     } 
@@ -74,8 +74,10 @@ export const useQueryState = <T>(name: string, def?: any, options?: object): [T,
     }
     if (newValue) {
       params.set(name, newValue as any);
-      window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+    } else {
+      params.delete(name);
     }
+    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
   }, [value]);
 
   return [value, setValue];

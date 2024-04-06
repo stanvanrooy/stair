@@ -1,0 +1,35 @@
+:toc: macro
+:toc-title:
+:toclevels: 9
+:imagesdir: assets
+
+= ✈️ Stair - Flight Deal Finder
+
+video::sample.webm[video of Stair interface]
+
+toc::[]
+
+== 🌐 About Stair
+Stair is a web application designed to simplify the process of finding cheap flights. With an intuitive interface, users can input their travel preferences to search for the best flight deals that meet their criteria.
+
+== 🚀 Getting Started
+To use Stair, navigate to https://stanvanrooy.github.io/stair/ and enter your desired departure and arrival locations, travel dates, and other preferences. Stair will do the rest, pulling from a vast database of flights to present you with the most economical options.
+
+== 🔍 How to Use
+Enter the following information to find your flight:
+* Departure location
+* Arrival location
+* Departure period
+* Return period (optional)
+* Number of adults and children
+* Travel class (e.g., Economy)
+* Any alliance preferences
+
+After filling in your criteria, click 'Find Flights!' to see available deals.
+
+== 📝 License
+This project is licensed under the MIT License - see the `LICENSE` file in the GitHub repository for details.
+
+== 📢 Feedback
+Have suggestions or issues? Please open an issue on the GitHub repository at https://github.com/stanvanrooy/stair/issues
+

@@ -5,7 +5,6 @@ import { FlightStop } from "./flightStop";
 import { isMobile } from "react-device-detect"; 
 
 export interface IFlightRouteProps {
-  routes: string[];
   route: Route;
   nextRoute?: Route;
   key: any;
@@ -24,7 +23,7 @@ export const FlightRoute = (props: IFlightRouteProps) => {
     <p><b>Outbound</b></p>
   </div>
   return <>
-    {props.route.flyFrom === props.routes[0] ? outbound : null}
+    {props.route.flyFrom === props.route[0] ? outbound : null}
     <div className={styles.flight}>
       <p className={styles.duration}>{getDuration(props.route.local_departure, props.route.local_arrival)}</p>
       <div>

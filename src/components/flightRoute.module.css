@@ -64,12 +64,11 @@
 
 .info > div {
   display: flex;
+  gap: 16px;
+  justify-content: space-between;
 }
 
 .info > div > p {
   margin: 0;
 }
 
-.info > div > p:first-of-type {
-  width: 4.5vw;
-}

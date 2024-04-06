@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AirportPicker } from "./components/airportPicker";
 import { DateRangePicker } from "./components/dateRangePicker";
 import { CabinSelect } from "./components/cabinSelect";
@@ -27,17 +27,11 @@ export interface IIndexProps {
   returnRange?: DateRange;
 }
 
+declare var sa_event: (name: string) => void;
+
 const formatDate = (d?: Date) => d ? `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}` : null;
 
-const getHref = () => {
-  try {
-    return window.location.href;
-  } catch {
-    return "";
-  }
-}
-
-const App = (props: IIndexProps) => { // const [departureRange, setDepartureRange] = useQueryState<DateRange>(null);
+const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [departureRange, setDepartureRange] = useQueryState<DateRange>('departure', null, jsonOptionsDate);
@@ -57,6 +51,10 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
   const [from, setFrom] = useQueryState<Location[]>('from', null, jsonOptions);
   const [to, setTo] = useQueryState<Location[]>('to', null, jsonOptions);
 
+  const [href, setHref] = useState<string>(window.location.href);
+  useEffect(() => setHref(window.location.href), [departureRange, returnRange, adults, stops, maxNights, minNights, selectedAlliance, selectedCurrency, selectedCabin, from, to]);
+
+
   useEffect(() => initializeIcons(), []);
 
   const onChangeFrom = (l: Location[]) => setFrom(l);
@@ -65,7 +63,6 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
   const [error, setError] = useState<string | null>(null);
 
   const findFlights = () => {
-    // @ts-ignore
     sa_event("find flights click");
     if (!from || from.length === 0) {
       return setError("Add atleast one 'From' airport or city.");
@@ -95,7 +92,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       return_from: formatDate(returnRange?.start),
       return_to: formatDate(returnRange?.end ?? returnRange?.start),
       flight_type: returnRange?.start ? 'round' : 'oneway',
-      adults: adults ?? 1,
+      adults: adults != null && adults > 0 ? adults : 1,
       curr: selectedCurrency,
       limit: 1000,
       sort: 'price',
@@ -121,7 +118,6 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
 
     setIsLoading(true);
     setError(null);
-    // @ts-ignore
     sa_event("find flights api request");
     axios({
       url: "https://tequila-api.kiwi.com/v2/search",
@@ -132,7 +128,6 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       .then(r => {
         if (r.status > 399) {
           setError(r.data.error.slice(39, r.data.error.length - 1));
-          // @ts-ignore
           sa_event(r.data.error.slice(39, r.data.error.length - 1));
         } else {
           setFlights(r.data.data)
@@ -151,15 +146,18 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
       <h1><a href="https://stair.nu">Stair</a></h1>
       <p>Travel hacking made easy.</p>
     </div>
+
     <div className={styles.container}>
       <div className={styles.fieldContainer}>
         <AirportPicker selected={from ?? []} onChange={onChangeFrom} label={"Departure location"} />
         <AirportPicker selected={to ?? []} onChange={onChangeTo} label={"Arrival location"} />
       </div>
+
       <div className={styles.fieldContainer}>
         <DateRangePicker value={departureRange} onChange={setDepartureRange} placeholder={"Departure period"} />
         <DateRangePicker value={returnRange} onChange={setReturnRange} placeholder={"Return period (optional)"}/>
       </div>
+
       <div>
         <div className={styles.fieldContainer}>
           <CabinSelect value={selectedCabin} onChange={setSelectedCabin} />
@@ -180,6 +178,7 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
           />
         </div>
         <br />
+
         <div className={styles.fieldContainer}>
           <AllianceSelect value={selectedAlliance} onChange={setSelectedAlliance} />
           <TextField 
@@ -198,23 +197,29 @@ const App = (props: IIndexProps) => { // const [departureRange, setDepartureRang
           />
         </div>
       </div>
+
       {error ? <p className={styles.error}>{error}</p> : null}
+
       <PrimaryButton onClick={_ => findFlights()}>Find flights!</PrimaryButton>
+
       <TextField readOnly
-        value={getHref()} 
+        value={href}
         onRenderPrefix={onRenderLinkPrefix} 
         onRenderSuffix={onRenderLinkSuffix}
         styles={{suffix: {padding: 0}}}
       />
     </div>
+
     <div className={styles.currencySelectContainer}>
       <CurrencySelect value={selectedCurrency} onChange={setSelectedCurrency} />
     </div>
+
     <FlightExplorer flights={flights} /></>}
+
     <div className={styles.footer}>
       <p>© <a href="https://github.com/stanvanrooy">Stan van Rooy</a></p>
-      <a href="https://peacekeeper.app">Social media scheduler</a>
     </div>
+
     <BrowserView>
       <a className={styles.analyticsBadge} href="https://simpleanalytics.com/stair.nu?utm_source=stair.nu&utm_content=badge" target="_blank">
         <img src="https://simpleanalyticsbadge.com/stair.nu?counter=false&background=eeeeee" loading="lazy" />
