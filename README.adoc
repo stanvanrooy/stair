@@ -5,7 +5,7 @@
 
 = ✈️ Stair - Flight Deal Finder
 
-video::sample.webm[video of Stair interface]
+image::sample.gif[Sample of Stair interface]
 
 toc::[]
 
