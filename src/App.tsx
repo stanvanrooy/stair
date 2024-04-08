@@ -125,7 +125,24 @@ const App = () => {
         if (r.status > 399) {
           setError(r.data.error.slice(39, r.data.error.length - 1));
         } else {
-          setFlights(r.data.data)
+          const flights = [];
+          for (const flight of r.data.data) {
+            let prev = flight.cityCodeFrom;
+
+            loop1:
+            for (const part of flight.route) {
+              if (part.flyFrom !== prev) {
+                break loop1;
+              }
+
+              prev = part.flyTo;
+
+              if (part === flight.route[flight.route.length - 1]) {
+                flights.push(flight);
+              }
+            }
+          }
+          setFlights(flights);
         }
       })
       .then(_ => setIsLoading(false))
