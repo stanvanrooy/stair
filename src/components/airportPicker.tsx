@@ -1,4 +1,4 @@
-import { TagPicker, ITag, Icon, IBasePickerStyles } from "@fluentui/react";
+import { TagPicker, ITag, Icon } from "@fluentui/react";
 import { useMemo } from "react";
 import axios from "axios";
 import { Location } from "../models/location";
@@ -43,8 +43,6 @@ const onResolveSuggestions = (filter: string, selected?: ITag[]): PromiseLike<IT
   const selectedKeys = selected.map(s => s.key);
   console.log(selectedKeys);
 
-  // @ts-ignore
-  sa_event('location_api_request');
   return axios({
     url: url,
     headers: headers,

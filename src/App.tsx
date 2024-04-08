@@ -27,8 +27,6 @@ export interface IIndexProps {
   returnRange?: DateRange;
 }
 
-declare var sa_event: (name: string) => void;
-
 const formatDate = (d?: Date) => d ? `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}` : null;
 
 const App = () => {
@@ -63,7 +61,6 @@ const App = () => {
   const [error, setError] = useState<string | null>(null);
 
   const findFlights = () => {
-    sa_event("find flights click");
     if (!from || from.length === 0) {
       return setError("Add atleast one 'From' airport or city.");
     }
@@ -118,7 +115,6 @@ const App = () => {
 
     setIsLoading(true);
     setError(null);
-    sa_event("find flights api request");
     axios({
       url: "https://tequila-api.kiwi.com/v2/search",
       params: params,
@@ -128,7 +124,6 @@ const App = () => {
       .then(r => {
         if (r.status > 399) {
           setError(r.data.error.slice(39, r.data.error.length - 1));
-          sa_event(r.data.error.slice(39, r.data.error.length - 1));
         } else {
           setFlights(r.data.data)
         }

@@ -14,8 +14,7 @@ export const dateTimeToDate = (s: string): string => {
 }
 
 export const navigateToExternalUrl = (name: string, url: string) => {
-  // @ts-ignore
-  sa_event(`navigate to ${name}`, () => window.open(url, '_blank').focus());
+  window.open(url, '_blank').focus();
 }
 
 const parseJson = (s: string) => {
